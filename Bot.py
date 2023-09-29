@@ -1,35 +1,35 @@
 import discord
-from discord import app_commands
-from discord.ext import commands
-# Bot-Token
-TOKEN = 'insert token'
+from discord.ext import commands, tasks
+from itertools import cycle
+import os
+import asyncio
 
-# Intents erstellen
-intents = discord.Intents.default()
+client = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 
-# Intents aktivieren
-intents.guilds = True
-intents.guild_messages = True
-intents.message_content = True
+bot_status = cycle(['Hackathon #1', '/signup'])
 
-# Bot-Client erstellen
-client = commands.Bot(intents=intents, command_prefix='/')
+@tasks.loop(seconds=5)
+async def change_status():
+    await client.change_presence(activity=discord.Activity(name = next(bot_status), type=5))
 
-
-# Command-Tree erstellen
-tree = app_commands.CommandTree(client)
-
-# On-Ready-Event
 @client.event
 async def on_ready():
-  for server in client.guilds:
-    await client.tree.sync(guild=discord.Object(id=1148327198537818182))
-    print("Bot ist online!")
+    await client.tree.sync()
+    print('Bot is online')
+    change_status.start()
 
-# Slash-Command
-@client.command(name = "signup", description = "hackathon") #Add the guild ids in which the slash command will appear. If it should be in all, remove the argument, but note that it will take some time (up to an hour) to register the command if it's for all guilds.
-async def first_command(interaction):
- await interaction.response.send_message("Willkommen zum Anmeldeformular!")
 
-# Bot starten
-client.run(TOKEN)
+async def load():
+    for filename in os.listdir('./cogs'):
+        if filename.endswith('.py'):
+            await client.load_extension(f'cogs.{filename[:-3]}')
+
+
+async def main():
+    async with client:
+        await load()
+        await client.start('add token')
+
+
+asyncio.run(main())
+
