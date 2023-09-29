@@ -2,7 +2,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 # Bot-Token
-TOKEN = 'MTE1Njk4MjcxMzE3MDAwMjAwMQ.GD-VZM.O9RtwGgEluXQmt-z0MYs1rYwan1YH1F80YjvJc'
+TOKEN = 'insert token'
 
 # Intents erstellen
 intents = discord.Intents.default()
