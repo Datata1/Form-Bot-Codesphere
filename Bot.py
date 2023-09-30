@@ -4,13 +4,15 @@ from itertools import cycle
 import os
 import asyncio
 
+os.getcwd()
+
 client = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 
 bot_status = cycle(['Hackathon #1', '/signup'])
 
 @tasks.loop(seconds=5)
 async def change_status():
-    await client.change_presence(activity=discord.Activity(name = next(bot_status), type=5))
+    await client.change_presence(activity=discord.Activity(name=next(bot_status), type=5))
 
 @client.event
 async def on_ready():
@@ -28,7 +30,7 @@ async def load():
 async def main():
     async with client:
         await load()
-        await client.start('add token')
+        await client.start('MTE1Njk4MjcxMzE3MDAwMjAwMQ.GoLcLL.77C6v-rgAkUXrqbWvGgV6sYNtFFSderCgwZtR0')
 
 
 asyncio.run(main())
