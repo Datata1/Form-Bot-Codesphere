@@ -34,11 +34,17 @@ class inputmodal(discord.ui.Modal, title='personal information'):
             channel_user[name] = [data[0], data[1]]
             save_channel_users(channel_user)
 
+            channel = await interaction.channel.guild.fetch_channel('1157012029920514118')
+
+            await channel.send(embed=embed_message)
+
             await interaction.response.send_message(content='Your submission was successful', ephemeral=True)
     async def on_submit(self, interaction: discord.Interaction):
         global dater
 
         dater = [self.email.value, self.bdate.value]
+
+        global embed_message
 
         embed_message = discord.Embed(title='Hackathon',
                                       description='this is lit!',
@@ -67,6 +73,9 @@ class inputmodal(discord.ui.Modal, title='personal information'):
 
         data = [dater[0], dater[1]]
         print(data)
+
+
+
         await interaction.response.send_message(embed=embed_message, view=inputmodal.menubutton(), ephemeral=True)
 
 
@@ -84,7 +93,6 @@ class form(commands.Cog):
     async def form(self, interaction: discord.Interaction):
 
         await interaction.response.send_modal(inputmodal())
-
 
 
 
