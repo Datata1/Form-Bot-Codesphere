@@ -30,7 +30,7 @@ async def load():
 async def main():
     async with client:
         await load()
-        await client.start('MTE1Njk4MjcxMzE3MDAwMjAwMQ.Gy5SrG.3ktNM97ixcJTQt3KiCXJ-W2ao7pgi4Ja78e89Q')
+        await client.start('')
 
 
 asyncio.run(main())
